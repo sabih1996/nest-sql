@@ -40,6 +40,12 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     networks:
       - app-network
+  adminer:
+    image: adminer
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
 
 volumes:
   pg_data:

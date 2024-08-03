@@ -1,12 +1,9 @@
-import { Module, OnModuleInit } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { exec } from 'child_process';
-import { promisify } from 'util';
+import { User } from './models/user.model';
 // import { TypeOrmModule } from '@nestjs/typeorm';
-
-const execAsync = promisify(exec);
 
 @Module({
   imports: [
@@ -14,8 +11,8 @@ const execAsync = promisify(exec);
       dialect: 'mysql',
       uri: process.env.SQL_DATABASE_URL,
       autoLoadModels: true,
-      synchronize: false,
-      models: [], // Add your MySQL models here,
+      synchronize: true,
+      models: [User], // Add your MySQL models here,
     }),
     // SequelizeModule.forRoot({
     //   dialect: 'postgres',
@@ -37,16 +34,4 @@ const execAsync = promisify(exec);
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule implements OnModuleInit {
-  constructor() {}
-
-  async onModuleInit() {
-    try {
-      console.log('Running migrations...');
-      await execAsync('npx sequelize-cli db:migrate');
-      console.log('Migrations completed.');
-    } catch (error) {
-      console.error('Error running migrations:', error);
-    }
-  }
-}
+export class AppModule {}
