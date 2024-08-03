@@ -1,4 +1,11 @@
-import { Table, Column, Model, DataType } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  DataType,
+  BeforeCreate,
+} from 'sequelize-typescript';
+import { hashPassword } from 'src/utils/crypto.util';
 
 @Table
 export class User extends Model<User> {
@@ -25,12 +32,12 @@ export class User extends Model<User> {
   @Column({
     type: DataType.STRING,
   })
-  firstName: string;
+  name: string;
 
   @Column({
     type: DataType.STRING,
   })
-  lastName: string;
+  address: string;
 
   @Column({
     type: DataType.DATE,
@@ -43,4 +50,9 @@ export class User extends Model<User> {
     defaultValue: DataType.NOW,
   })
   updatedAt: Date;
+
+  @BeforeCreate
+  static hashUserPassword(user: User) {
+    user.password = hashPassword(user.password);
+  }
 }
