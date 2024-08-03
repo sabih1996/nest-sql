@@ -5,9 +5,13 @@ import { AppService } from './app.service';
 import { User } from './models/user.model';
 // import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     // SequelizeModule.forRoot({
     //   dialect: 'mysql',
     //   uri: process.env.SQL_DATABASE_URL,
@@ -22,7 +26,6 @@ import { UserModule } from './user/user.module';
       synchronize: true,
       models: [User], // Add your PostgreSQL models here
     }),
-    UserModule,
     // TypeOrmModule.forRoot({
     //   type: 'postgres',
     //   url: process.env.PG_DATABASE_URL,
