@@ -1,0 +1,6 @@
+{
+  "config": "src/sequelize-config.ts",
+  "models-path": "src/models",
+  "seeders-path": "src/seeders",
+  "migrations-path": "src/migrations"
+}
